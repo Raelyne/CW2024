@@ -6,23 +6,18 @@ import java.util.stream.Collectors;
 
 import com.example.demo.actors.*;
 import com.example.demo.actors.player.*;
-import com.example.demo.controller.Main;
 import com.example.demo.controller.SoundManager;
 import com.example.demo.levels.LevelView;
 import com.example.demo.controller.MainMenuController;
 import javafx.animation.*;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 
 public abstract class LevelParent extends Observable {
 
@@ -51,10 +46,9 @@ public abstract class LevelParent extends Observable {
 
 	private final Set<KeyCode> activeKeys = new HashSet<>(); //Creating a new hash-set which is basically a box that keeps track of all active keys being pressed by the player
 	private long lastFiredProjectile = 0;
-	private static final long PROJECTILE_COOLDOWN = 120; // Cooldown in milliseconds
+	private static final long PROJECTILE_COOLDOWN = 110; // Cooldown in milliseconds
 
 	private Stage stage;
-	private static final String MAIN_MENU_FXML = "/fxml/mainmenu.fxml";
 	private Button popupButton;
 
 	//sounds
@@ -239,6 +233,7 @@ public abstract class LevelParent extends Observable {
 		background.setFitWidth(screenWidth);
 		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
+
 				KeyCode kc = e.getCode();
 				activeKeys.add(kc); //On key press, add that key to the hash set
 				if (kc == KeyCode.ESCAPE) pauseGame();

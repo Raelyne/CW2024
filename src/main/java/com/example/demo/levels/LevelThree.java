@@ -15,6 +15,7 @@ public class LevelThree extends LevelParent {
 	private static final int MAX_OBSTACLES = 2;
 	private static final int KILLS_TO_ADVANCE = 25;
 	private static final double ENEMY_SPAWN_PROBABILITY = .15;
+	private static final double ELITE_PROBABILITY = 0.3;
 	private static final double OBSTACLE_SPAWN_PROBABILITY = .3;
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 
@@ -47,7 +48,7 @@ public class LevelThree extends LevelParent {
 	@Override
 	protected ActiveActorDestructible createEnemy() {
 		double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
-		if (Math.random() < 0.3) {
+		if (Math.random() < ELITE_PROBABILITY) {
 			return new EliteEnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
 		} else {
 			return new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);

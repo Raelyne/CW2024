@@ -3,14 +3,14 @@ package com.example.demo.actors.player;
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.FighterPlane;
 import com.example.demo.controller.SoundManager;
-import com.example.demo.projectile.UserProjectile;
+import com.example.demo.actors.projectile.UserProjectile;
 
 
 public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "Player/userplaneALT.gif";
 	private static final double Y_UPPER_BOUND = 0;
-	private static final double Y_LOWER_BOUND = 700.0;
+	private static final double Y_LOWER_BOUND = 650.0;
 	private static final double X_UPPER_BOUND = 5.0;
 	private static final double X_LOWER_BOUND = 1200.0;
 	private static final double INITIAL_X_POSITION = 5.0;
@@ -139,10 +139,6 @@ public class UserPlane extends FighterPlane {
 	public void moveRight() {
 		HorizontalvelocityMultiplier = 1.5;
 	}
-
-	//public void stop() {
-		//VerticalvelocityMultiplier = 0;
-	//}
 
 	public int getNumberOfKills() {
 		return numberOfKills;

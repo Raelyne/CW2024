@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.Slider;
@@ -14,9 +13,6 @@ public class SettingsController {
     private Stage stage;
     private static final String BUTTON_CLICK_SFX = "/com/example/demo/sfx/ui_sfx/buttonclick.mp3";
     private SoundManager soundManager;
-
-    @FXML
-    private Button backButton;
 
     @FXML
     private Slider volumeSlider;

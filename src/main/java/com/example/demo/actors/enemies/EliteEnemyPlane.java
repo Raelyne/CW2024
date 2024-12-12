@@ -2,7 +2,7 @@ package com.example.demo.actors.enemies;
 
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.FighterPlane;
-import com.example.demo.projectile.EliteEnemyProjectile;
+import com.example.demo.actors.projectile.EliteEnemyProjectile;
 
 public class EliteEnemyPlane extends FighterPlane {
 
@@ -11,7 +11,7 @@ public class EliteEnemyPlane extends FighterPlane {
     private static final int HORIZONTAL_VELOCITY = -5;
     private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
     private static final double PROJECTILE_Y_POSITION_OFFSET = 50.0;
-    private static final int INITIAL_HEALTH = 8;
+    private static final int INITIAL_HEALTH = 7;
     private static final double FIRE_RATE = .025;
 
     public EliteEnemyPlane(double initialXPos, double initialYPos) {

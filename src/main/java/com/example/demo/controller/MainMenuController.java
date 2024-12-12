@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -19,7 +18,6 @@ public class MainMenuController {
     private static final String SETTINGS_FXML = "/fxml/settings.fxml";
     private static final String BUTTON_CLICK_SFX = "/com/example/demo/sfx/ui_sfx/buttonclick.mp3";
     private static final String BG_MUSIC = "/com/example/demo/sfx/level_music/mainMenuMusic.mp3";
-    private static MediaPlayer mediaPlayer;
     private SoundManager soundManager;
 
     public void initialize(Stage stage) {
@@ -36,7 +34,7 @@ public class MainMenuController {
     }
 
     @FXML
-    private void onStartButtonClicked(ActionEvent event) throws IOException, ClassNotFoundException,
+    private void onStartButtonClicked(ActionEvent event) throws ClassNotFoundException,
             InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         System.out.println("Start button clicked!");
         soundManager.playSFX("button_click");  // Play button click sound

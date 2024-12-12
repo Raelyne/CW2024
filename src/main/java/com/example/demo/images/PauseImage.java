@@ -3,6 +3,8 @@ package com.example.demo.images;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Objects;
+
 public class PauseImage extends ImageView {
 
     private static final String IMAGE_NAME = "/com/example/demo/images/LevelUI/pause.png";
@@ -10,7 +12,7 @@ public class PauseImage extends ImageView {
     private static final int WIDTH = 600;
 
     public PauseImage(double xPosition, double yPosition) {
-        this.setImage(new Image(getClass().getResource(IMAGE_NAME).toExternalForm()));
+        this.setImage(new Image(Objects.requireNonNull(getClass().getResource(IMAGE_NAME)).toExternalForm()));
         this.setVisible(false);
         this.setFitHeight(HEIGHT);
         this.setFitWidth(WIDTH);
@@ -22,7 +24,4 @@ public class PauseImage extends ImageView {
         this.setVisible(true);
     }
 
-    public void hidePauseImage() {
-        this.setVisible(false);
-    }
 }

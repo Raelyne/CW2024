@@ -5,6 +5,7 @@ import javafx.scene.media.MediaPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class SoundManager {
     private static SoundManager instance;
@@ -26,7 +27,7 @@ public class SoundManager {
 
     // Load sound effect by its name
     public void loadSFX(String name, String filePath) {
-        Media media = new Media(getClass().getResource(filePath).toExternalForm());
+        Media media = new Media(Objects.requireNonNull(getClass().getResource(filePath)).toExternalForm());
         soundEffects.put(name, media); // Store Media instead of MediaPlayer
     }
 
@@ -51,8 +52,8 @@ public class SoundManager {
 
     // Play background music
     public void playBackgroundMusic(String filePath) {
-        if (backgroundMusicPlayer == null || !backgroundMusicPlayer.getMedia().getSource().equals(getClass().getResource(filePath).toExternalForm())) {
-            Media media = new Media(getClass().getResource(filePath).toExternalForm());
+        if (backgroundMusicPlayer == null || !backgroundMusicPlayer.getMedia().getSource().equals(Objects.requireNonNull(getClass().getResource(filePath)).toExternalForm())) {
+            Media media = new Media(Objects.requireNonNull(getClass().getResource(filePath)).toExternalForm());
             backgroundMusicPlayer = new MediaPlayer(media);
             backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop the new music
         }

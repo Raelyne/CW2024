@@ -2,7 +2,7 @@ package com.example.demo.actors.enemies;
 
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.FighterPlane;
-import com.example.demo.projectile.BossProjectile;
+import com.example.demo.actors.projectile.BossProjectile;
 import com.example.demo.images.ShieldImage;
 
 import java.util.*;
@@ -13,7 +13,7 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_X_POSITION = 1000.0;
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
-	private static final double BOSS_FIRE_RATE = .04;
+	private static final double BOSS_FIRE_RATE = .045;
 	private static final double BOSS_SHIELD_PROBABILITY = .03;
 	private static final int IMAGE_HEIGHT = 350;
 	private static final int VERTICAL_VELOCITY = 8;
@@ -21,7 +21,7 @@ public class Boss extends FighterPlane {
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 7;
-	private static final int Y_POSITION_UPPER_BOUND = -100;
+	private static final int Y_POSITION_UPPER_BOUND = -50;
 	private static final int Y_POSITION_LOWER_BOUND = 475;
 	private static final int MAX_FRAMES_WITH_SHIELD = 70;
 	private final List<Integer> movePattern;

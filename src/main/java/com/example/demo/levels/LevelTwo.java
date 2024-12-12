@@ -13,11 +13,12 @@ public class LevelTwo extends LevelParent {
 	private static final int TOTAL_ENEMIES = 4;
 	private static final int KILLS_TO_ADVANCE = 20;
 	private static final double ENEMY_SPAWN_PROBABILITY = .15;
+	private static final double ELITE_PROBABILITY = 0.2;
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 
 	//sounds
 	private SoundManager soundManager;
-	private static final String LEVEL_BG_MUSIC = "/com/example/demo/sfx/level_music/level2Music.mp3";
+	private static final String LEVEL_BG_MUSIC = "/com/example/demo/sfx/level_music/level2Musicalt.mp3";
 
 	public LevelTwo(double screenHeight, double screenWidth, Stage stage) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, stage);
@@ -44,7 +45,7 @@ public class LevelTwo extends LevelParent {
 	@Override
 	protected ActiveActorDestructible createEnemy() {
 		double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
-		if (Math.random() < 0.3) {
+		if (Math.random() < ELITE_PROBABILITY) {
 			return new EliteEnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
 		} else {
 			return new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
