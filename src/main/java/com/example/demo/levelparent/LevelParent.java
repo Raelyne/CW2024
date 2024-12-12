@@ -1,20 +1,28 @@
 package com.example.demo.levelparent;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.example.demo.actors.*;
+import com.example.demo.actors.player.*;
+import com.example.demo.controller.Main;
+import com.example.demo.controller.SoundManager;
 import com.example.demo.levels.LevelView;
-import com.example.demo.actors.ActiveActorDestructible;
-import com.example.demo.actors.FighterPlane;
-import com.example.demo.actors.UserPlane;
-import com.example.demo.actors.Obstacle;
+import com.example.demo.controller.MainMenuController;
 import javafx.animation.*;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 
 public abstract class LevelParent extends Observable {
 
@@ -29,7 +37,10 @@ public abstract class LevelParent extends Observable {
 	private final UserPlane user;
 	private final Scene scene;
 	private final ImageView background;
+	private final LevelView levelView;
 	private boolean isGameActive;
+	private boolean didGameEnd;
+
 	private final List<ActiveActorDestructible> friendlyUnits;
 	private final List<ActiveActorDestructible> enemyUnits;
 	private final List<ActiveActorDestructible> userProjectiles;
@@ -37,12 +48,22 @@ public abstract class LevelParent extends Observable {
 	private final List<ActiveActorDestructible> obstacles;
 	private int currentNumberOfEnemies;
 	private int currentNumberOfObstacles;
-	private final LevelView levelView;
+
 	private final Set<KeyCode> activeKeys = new HashSet<>(); //Creating a new hash-set which is basically a box that keeps track of all active keys being pressed by the player
 	private long lastFiredProjectile = 0;
 	private static final long PROJECTILE_COOLDOWN = 120; // Cooldown in milliseconds
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+	private Stage stage;
+	private static final String MAIN_MENU_FXML = "/fxml/mainmenu.fxml";
+	private Button popupButton;
+
+	//sounds
+	private SoundManager soundManager;
+	private static final String BG_MUSIC = "/com/example/demo/sfx/level_music/mainMenuMusic.mp3";
+	private static final String BUTTON_CLICK_SFX = "/com/example/demo/sfx/ui_sfx/buttonclick.mp3";
+	private static final String SHOOT_SFX = "/com/example/demo/sfx/level_sfx/userShootalt.mp3";
+
+	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, Stage stage) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
@@ -53,24 +74,84 @@ public abstract class LevelParent extends Observable {
 		this.enemyProjectiles = new ArrayList<>();
 		this.obstacles = new ArrayList<>();
 
-		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
+
+        this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
 		this.currentNumberOfObstacles = 0;
+
+		this.stage = stage;
 		initializeTimeline();
 		friendlyUnits.add(user);
+
+		//Sound-related
+		this.soundManager = SoundManager.getInstance();
+
+		soundManager.loadSFX("button_click", BUTTON_CLICK_SFX);
+		soundManager.loadSFX("shoot", SHOOT_SFX);
+	}
+
+	protected void playShootSound() {
+		soundManager.playSFX("shoot");
 	}
 
 	protected abstract void initializeFriendlyUnits();
 
 	protected abstract void checkIfGameOver();
 
-	protected abstract void spawnEnemyUnits();
+	protected ActiveActorDestructible createEnemy() {
+		// Default implementation returns null (no enemy for this level)
+		return null;
+	}
 
-	protected void spawnObstacles() {  } //Does nothing, only for the sake of overriding when needed.;
+	protected ActiveActorDestructible createObstacle() {
+		// Default implementation returns null (no obstacle for this level)
+		return null;
+	}
+
+	protected double getEnemySpawnProbability() {
+		return 0.0; // Default: No enemy spawn probability
+	}
+
+	protected double getObstacleSpawnProbability() {
+		return 0.0; // Default: No obstacle spawn probability
+	}
+
+	protected int getTotalEnemies() {
+		return 0; // Default: No enemies allowed
+	}
+
+	protected int getTotalObstacles() {
+		return 0; // Default: No obstacles allowed
+	}
+
+
+	protected void spawnEnemyUnits() {
+		currentNumberOfEnemies = getCurrentNumberOfEnemies();
+		for (int i = 0; i < getTotalEnemies() - currentNumberOfEnemies; i++) {
+			if (Math.random() < getEnemySpawnProbability()) {
+				ActiveActorDestructible newEnemy = createEnemy();
+				if (newEnemy != null) {
+					addEnemyUnit(newEnemy);
+				}
+			}
+		}
+	}
+
+	protected void spawnObstacles() {
+		currentNumberOfObstacles = getCurrentNumberOfObstacles();
+		for (int i = 0; i < getTotalObstacles() - currentNumberOfObstacles; i++) {
+			if (Math.random() < getObstacleSpawnProbability()) {
+				ActiveActorDestructible newObstacle = createObstacle();
+				if (newObstacle != null) {
+					addObstacle(newObstacle);
+				}
+			}
+		}
+	}
 
 	protected abstract LevelView instantiateLevelView();
 
@@ -84,17 +165,27 @@ public abstract class LevelParent extends Observable {
 	public void startGame() {
 		background.requestFocus();
 		isGameActive = true; //Add a value to help the game decide if the game is running at the moment. Useful
+		didGameEnd = false;
 		timeline.play();
 	}
 
 	public void pauseGame() {
-		if (isGameActive) {
+		if (isGameActive && !didGameEnd) {
 			isGameActive = false;
 			timeline.pause();
+			levelView.showPauseImage();
+			showMainMenuButton(stage);
 		}
-		else {
+		else if (!isGameActive && !didGameEnd) {
 			isGameActive = true;
 			timeline.play();
+			levelView.hidePauseImage();
+
+			if (popupButton != null) {
+				Group root = (Group) scene.getRoot();
+				root.getChildren().remove(popupButton);
+				popupButton = null; // Clear the reference
+			}
 		}
 	} //Pauses the game if the game is active, and starts the game again if it is already paused.
 
@@ -150,8 +241,7 @@ public abstract class LevelParent extends Observable {
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
 				activeKeys.add(kc); //On key press, add that key to the hash set
-				if (kc == KeyCode.ESCAPE) pauseGame(); // Must be above isgameactive so it will work outside of an active game.
-				if (!isGameActive) return; //Void all inputs if the game is currently not active.
+				if (kc == KeyCode.ESCAPE) pauseGame();
 			}
 		});
 		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
@@ -170,14 +260,16 @@ public abstract class LevelParent extends Observable {
 	}
 
 	private void handlePlayerActions() {
+		if (!isGameActive) return; //Void all inputs if the game is currently not active.
 		if (activeKeys.contains(KeyCode.UP) || (activeKeys.contains(KeyCode.W))) user.moveUp();
 		if (activeKeys.contains(KeyCode.DOWN) || (activeKeys.contains(KeyCode.S))) user.moveDown();
 		if (activeKeys.contains(KeyCode.LEFT) || (activeKeys.contains(KeyCode.A))) user.moveLeft();
 		if (activeKeys.contains(KeyCode.RIGHT) || (activeKeys.contains(KeyCode.D))) user.moveRight();
-		if (activeKeys.contains(KeyCode.SPACE)) {
+		if (activeKeys.contains(KeyCode.SPACE) || (activeKeys.contains(KeyCode.K))) {
 			long currentTime = System.currentTimeMillis();
 			if (currentTime - lastFiredProjectile> PROJECTILE_COOLDOWN) {
 				fireProjectile();
+				playShootSound();
 				lastFiredProjectile = currentTime;
 			}
 		} //Makes sure that the active keys don't make any weird combinations when the user is inputting as it can effectively separate the processing of keys
@@ -296,12 +388,47 @@ public abstract class LevelParent extends Observable {
 		isGameActive = false;
 		levelView.showWinImage();
 		cleanAssets();
+		showMainMenuButton(stage);
 	}
 
 	protected void loseGame() {
 		timeline.stop();
 		isGameActive = false;
+		didGameEnd = true;
 		levelView.showGameOverImage();
+		showMainMenuButton(stage);
+	}
+
+	private void showMainMenuButton(Stage stage) {
+		// Create a StackPane as a parent container to center the button
+		Group root = (Group) scene.getRoot();
+
+		if (popupButton == null) {
+			popupButton = new Button("Go Back To Main Menu");
+			popupButton.setStyle("-fx-font-size: 16px; -fx-padding: 10;");
+
+			// Position the button in the center
+			popupButton.setLayoutX(555); // X-coordinate
+			popupButton.setLayoutY(475); // Y-coordinate
+
+			popupButton.setFocusTraversable(false);
+
+			popupButton.setOnAction(event -> {
+				cleanAssets(); //To ensure all assets will always be cleaned.
+				// Close the popup button (remove it) when clicked
+				root.getChildren().remove(popupButton);
+				soundManager.stopBackgroundMusic();
+				soundManager.playBackgroundMusic(BG_MUSIC);
+				MainMenuController mainMenuController = new MainMenuController();
+				try {
+					mainMenuController.showMainMenu(stage);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			});
+		}
+		// Add the popup button to the root layout (overlay)
+		root.getChildren().add(popupButton);
 	}
 
 	protected UserPlane getUser() {
@@ -349,5 +476,4 @@ public abstract class LevelParent extends Observable {
 	private void updateNumberOfObstacles() {
 		currentNumberOfObstacles = obstacles.size();
 	}
-
 }
