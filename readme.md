@@ -35,13 +35,13 @@ https://github.com/Raelyne/CW2024.git
 
 - Reload Maven to ensure all JavaFX dependencies are up to date
 
-### 1. Ensure you have installed JDK 21 or JDK 23
+### 1. Install JDK 21 or JDK 23
 - Currently, Oracle offers JDK 21 or JDK 23 for installation.
 - JDK 23 is preferred
 - You can find the download link here:
   https://www.oracle.com/cis/java/technologies/downloads/#jdk23-windows
 
-### 2. Ensure you have installed JavaFX ver 21 and above
+### 2. Install JavaFX ver 21 and above
 - Ensure that you are at least using JDK 17 or above as only those versions can support JavaFX 21++.
 - You can find the download link here:
 https://gluonhq.com/products/javafx/
@@ -53,31 +53,31 @@ https://gluonhq.com/products/javafx/
 ![img_6.png](readme_photos/img_6.png)
 
 ### 4a. Clone the repository (preferred method)
-- After clicking on the gitHub link above, navigate a green button <> Code
+- After clicking on the [GitHub](#github) link above, navigate a green button <> Code
 - Copy the GitHub repository URL
 - Open your IntelliJ
 - Go to File > New > Project from Version Control
 - Paste the URL from earlier into the URL field
 - Click "Clone", and IntelliJ will clone and open the repository.
+
+![img_5.png](readme_photos/img_5.png)
+![img.png](readme_photos/jaja.png)
+
    ```bash
    git clone repository-url
    cd your-repo
    ```
-![img_5.png](readme_photos/img_5.png)
+- Alternatively you can type this in your terminal.
+- However you will have to check for step 11.
 
 ### 4b. Extract the .zip folder (alternative)
 - If needed extract the zip folder.
 - Right-click the .zip folder contained and extract it to a safe location
 - Then, load the project through the IntelliJ IDE.
 - File > Open > Path to the extracted folder
+- You will have to check for step 11 for this method.
 
-### 5. Ensure that you have downloaded Maven & loaded it after opening in IDE
-- You can download Maven using this link:
-  https://maven.apache.org/download.cgi
-  ![img.png](readme_photos/abc.png)
-  MAKE SURE to press Load to load all build scripts used.
-
-### 6. Ensure that java is marked as a Source Root (IMPORTANT)
+### 5. Ensure that java is marked as a Source Root (IMPORTANT)
 #### /src/main/java
 - If java does not appear as a "blue folder", or all the java classes have "coffee icons" then java is not properly marked as a source root.
   - In that case, find the location listed above, then right click on java.
@@ -85,14 +85,14 @@ https://gluonhq.com/products/javafx/
   - Click on Sources Root
 ![img.png](readme_photos/123.png)
   
-### 7. Ensure that resources folder is marked as a Resources Root (IMPORTANT)
+### 6. Ensure that resources folder is marked as a Resources Root (IMPORTANT)
 #### /src/main/resources
 - If resources does not appear as a white folder with "yellow coins stacked", then it is not marked as a resources folder
   - Right Click > Mark Directory as > Resources Root
   - Click on Resources Root
 ![img_1.png](readme_photos/456.png)
 
-### 8. Make sure the Main class is set
+### 7. Make sure the Main class is set
 #### /src/main/java/com/example/demo/controller/Main.java
 - Main class may not be set. In this case, you want to check
 - Open Main.java
@@ -118,11 +118,19 @@ The dependencies may show as not 21 or 21.0.2 . Ensure that:
 - Dependencies for javafx-controls,javafx-fxml,javafx-media are **21.0.2**.
 ![img.png](readme_photos/img_2.png)
 
-### 11. Sync Dependencies: Reload Maven to download all needed dependencies
+### 11. Check if the Maven tool is visible on the right side of IntelliJ screen
+- In case of not being able to see Maven on the right side, this means that Maven has not been implemented reimport as Maven project
+1. Open File > Open and select the pom.xml file (instead of opening the folder)
+2. IntelliJ will prompt you to reimport the project as a Maven project. Accept this prompt.
+3. Once reimported, reload Maven and it will resolve all dependencies, and the project should be able to compile.
+
+![img_2.png](readme_photos/gabaf.png)
+
+### 12. Sync Dependencies: Reload Maven to download all needed dependencies
 Since javafx.media is a newly added dependency, Maven might have not been updated. So, we can click on the maven option and reload it in order to update it.
 ![img_1.png](readme_photos/img_1.png)
 
-### 12. Make sure that the .fxml files are using JavaFX 21.0.2
+### 13. Make sure that the .fxml files are using JavaFX 21.0.2
 - Can be found under resources/fxml/
 - This is because the .fxml can automatically update to use the most recent javafx ver (currently 23.0.1)
 - Can still be compiled without updating, but may cause unexpected errors, so it is better to check and correct it if needed.
@@ -131,17 +139,11 @@ Since javafx.media is a newly added dependency, Maven might have not been update
 ![img_3.png](readme_photos/img_3.png)
 ![img_4.png](readme_photos/img_4.png)
 
-### 13. Run the Main.java file to start the game
+### 14. Run the Main.java file to start the game
 #### /src/main/java/com/example/demo/controller/Main.java
 - You can press on the play button on the top right of the screen to run the app.
   
 - ![img_7.png](readme_photos/img_7.png)
-
-### 14. In case of not being able to see any Maven dependencies; reimport as Maven project
-- Open File > Open and select the pom.xml file (instead of opening the folder)
-  - IntelliJ will prompt you to reimport the project as a Maven project. Accept this prompt.
-  - Once reimported, reload Maven and it will resolve all dependencies, and the project should be able to compile.
-
 
 ## Implemented and Working Properly
 [Back to Table of Contents](#table-of-contents)
