@@ -72,25 +72,40 @@ MAKE SURE to press Load to load all build scripts used.
 - Go to File > New > Project from Version Control
 - Paste the URL from earlier into the URL field
 - Click "Clone", and IntelliJ will clone and open the repository.
+   ```bash
+   git clone https://github.com/yourusername/your-repo.git
+   cd your-repo
+   ```
 ![img_5.png](readme_photos/img_5.png)
 
-### 6. Ensure that the compiler is running on JDK 21.0.2
+### 6. Check for Project Structure
+- Check if your project structure matches this.
+![img_1.png](img_1.png)
+
+### 7. Ensure that the compiler is running on JDK 21.0.2
 For target bytecode version, you can just put 21 as the option
 ![img.png](readme_photos/img.png)
 
-### 7. Ensure that all dependencies in pom.xml are added and up to 21.0.2
+### 8. Ensure that all dependencies in pom.xml are added and up to 21.0.2
 The dependencies may show as not 21 or 21.0.2 . Ensure that:
 
 - Maven compiler source and target are **21.**
 - Ensure that javafx-controls, javafx-fxml, javafx-media are **added.**
 - Dependencies for javafx-controls,javafx-fxml,javafx-media are **21.0.2**.
 ![img.png](readme_photos/img_2.png)
+```bash 
+sudo apt-get install maven
+```
+Then, compile
+```bash
+mvn clean install
+```
 
-### 8. Sync Dependencies: Reload Maven to download all needed dependencies
+### 9. Sync Dependencies: Reload Maven to download all needed dependencies
 Since javafx.media is a newly added dependency, Maven might have not been updated. So, we can click on the maven option and reload it in order to update it.
 ![img_1.png](readme_photos/img_1.png)
 
-### 9. Make sure that the .fxml files are using JavaFX 21.0.2
+### 10. Make sure that the .fxml files are using JavaFX 21.0.2
 - Can be found under resources/fxml/
 - This is because the .fxml can automatically update to use the most recent javafx ver (currently 23.0.1)
 - Can still be compiled without updating, but may cause unexpected errors, so it is better to check and correct it if needed.
@@ -99,9 +114,13 @@ Since javafx.media is a newly added dependency, Maven might have not been update
 ![img_3.png](readme_photos/img_3.png)
 ![img_4.png](readme_photos/img_4.png)
 
-### 10. Run the Main.java file to start the game
+### 11. Run the Main.java file to start the game
 - The location is under /src/main/java/com/example/demo/controller/Main.java
 - You can press on the play button on the top right of the screen to run the app.
+- Alternatively, run through this command in terminal
+```bash 
+ java -jar target/your-project.jar
+```
 
 ![img_7.png](readme_photos/img_7.png)
 
