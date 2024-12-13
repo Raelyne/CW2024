@@ -17,7 +17,7 @@
       </ImageView>
       <ImageView fitHeight="400.0" fitWidth="400.0" layoutX="450.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../com/example/demo/images/skybattlelogo.png" />
+            <Image url="@../com/example/demo/images/FXML_Assets/skybattlelogo.png" />
          </image>
          <effect>
             <Bloom />

@@ -7,17 +7,44 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The {@code SoundManager} class is newly added, managing all sound-related functionality in the application.
+ * <p>
+ * This includes playing sound effects (SFX), managing background music, and handling mute states.
+ * It uses the {@code Media} and {@code MediaPlayer} classes from JavaFX to manage audio resources.
+ * Incorporates the Singleton Design Pattern.
+ * </p>
+ */
 public class SoundManager {
+    /**
+     * Singleton instance of the {@code SoundManager}.
+     */
     private static SoundManager instance;
-    private final Map<String, Media> soundEffects; // Store Media objects instead of MediaPlayer
+    /**
+     * Map storing sound effects, keyed by their name.
+     */
+    private final Map<String, Media> soundEffects;
+    /**
+     * MediaPlayer instance for background music.
+     */
     private MediaPlayer backgroundMusicPlayer;
+    /**
+     * Indicates whether the sound is muted.
+     */
     private boolean muted = false;
 
+    /**
+     * Private constructor to enforce singleton pattern.
+     */
     private SoundManager() {
         soundEffects = new HashMap<>();
     }
 
-    // Singleton instance getter
+    /**
+     * Retrieves the singleton instance of the {@code SoundManager}.
+     *
+     * @return the singleton {@code SoundManager} instance
+     */
     public static synchronized SoundManager getInstance() {
         if (instance == null) {
             instance = new SoundManager();
@@ -25,13 +52,22 @@ public class SoundManager {
         return instance;
     }
 
-    // Load sound effect by its name
+    /**
+     * Loads a sound effect into the manager, so that it can be called anytime.
+     *
+     * @param name     the name to associate with the sound effect
+     * @param filePath the file path to the sound effect
+     */
     public void loadSFX(String name, String filePath) {
         Media media = new Media(Objects.requireNonNull(getClass().getResource(filePath)).toExternalForm());
         soundEffects.put(name, media); // Store Media instead of MediaPlayer
     }
 
-    // Play a sound effect by name
+    /**
+     * Plays a sound effect by its name.
+     *
+     * @param soundName the name of the sound effect to play
+     */
     public void playSFX(String soundName) {
         if (!muted && soundEffects.containsKey(soundName)) {
             Media media = soundEffects.get(soundName);
@@ -43,14 +79,21 @@ public class SoundManager {
         }
     }
 
-    // Stop background music
+    /**
+     * Stops the background music if it is playing.
+     */
     public void stopBackgroundMusic() {
         if (backgroundMusicPlayer != null) {
             backgroundMusicPlayer.stop();
         }
     }
 
-    // Play background music
+    /**
+     * Plays background music from the specified file path.
+     * If the same music is already playing, this method does nothing.
+     *
+     * @param filePath the file path to the background music
+     */
     public void playBackgroundMusic(String filePath) {
         if (backgroundMusicPlayer == null || !backgroundMusicPlayer.getMedia().getSource().equals(Objects.requireNonNull(getClass().getResource(filePath)).toExternalForm())) {
             Media media = new Media(Objects.requireNonNull(getClass().getResource(filePath)).toExternalForm());
@@ -62,18 +105,33 @@ public class SoundManager {
         }
     }
 
+    /**
+     * Retrieves the current {@code MediaPlayer} instance for background music.
+     *
+     * @return the {@code MediaPlayer} instance for background music, or {@code null} if none is set
+     */
     public MediaPlayer getBackgroundMusicPlayer() {
         return backgroundMusicPlayer;
     }
 
-    // Set volume for background music
+    /**
+     * Sets the volume of the background music.
+     *
+     * @param volume the new volume level (0.0 to 1.0)
+     */
     public void setBackgroundMusicVolume(double volume) {
         if (backgroundMusicPlayer != null) {
             backgroundMusicPlayer.setVolume(volume);
         }
     }
 
-    // Toggle mute state
+    /**
+     * Toggles the mute state of the sound manager.
+     * <p>
+     * When muted, all sound effects and background music are silenced.
+     * Note: stopAllSFX() currently is not fully implemented.
+     * </p>
+     */
     public void toggleMute() {
         muted = !muted;
         if (muted) {
@@ -88,7 +146,12 @@ public class SoundManager {
         }
     }
 
-    // Stop all SFX (if you track active players)
+    /**
+     * Stops all currently playing sound effects.
+     * <p>
+     * Note: This method is yet be implemented, but can be to keep track of active sound effect players if needed.
+     * </p>
+     */
     public void stopAllSFX() {
         // Optional: Implement if you want to stop all currently playing SFX
     }
