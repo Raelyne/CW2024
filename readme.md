@@ -30,7 +30,7 @@ https://github.com/Raelyne/CW2024.git
 - JavaFX 21 and above
 - Maven 3.9.5 and above
 - IntelliJ Community Edition 2023.3.4 and above
-- Git (to clone the repository)
+- Git (mandatory to clone the repository)
 
 
 - Reload Maven to ensure all JavaFX dependencies are up to date
@@ -41,31 +41,18 @@ https://github.com/Raelyne/CW2024.git
 - You can find the download link here:
   https://www.oracle.com/cis/java/technologies/downloads/#jdk23-windows
 
-
 ### 2. Ensure you have installed JavaFX ver 21 and above
 - Ensure that you are at least using JDK 17 or above as only those versions can support JavaFX 21++.
 - You can find the download link here:
 https://gluonhq.com/products/javafx/
 
-### 3. Ensure that you have downloaded Maven & loaded it after opening in IDE
-- You can download Maven using this link:
-https://maven.apache.org/download.cgi
-![img.png](img.png)
-MAKE SURE to press Load to load all build scripts used.
-
-### 4. Install IntelliJ IDEA Community Edition 2023.3.4
+### 3. Install IntelliJ IDEA Community Edition 2023.3.4
 - IntelliJ IDEA Community Edition was used as the IDE to refactor this project. Install 2023.3.4 or above to avoid any unexpected problems.
 - You can download it here (make sure to download the community edition):
   https://www.jetbrains.com/idea/download/?section=windows
 ![img_6.png](readme_photos/img_6.png)
 
-### 5a. Extract the .zip folder (main method)
-- Right-click the .zip folder contained and extract it to a safe location
-- Then, load the project through the IntelliJ IDE.
-- File > Open > Path to the extracted folder
-
-### 5b. Clone the repository (alternative method)
-- If for whatever reason a direct clone to repository is needed, then follow this
+### 4a. Clone the repository (preferred method)
 - After clicking on the gitHub link above, navigate a green button <> Code
 - Copy the GitHub repository URL
 - Open your IntelliJ
@@ -73,39 +60,69 @@ MAKE SURE to press Load to load all build scripts used.
 - Paste the URL from earlier into the URL field
 - Click "Clone", and IntelliJ will clone and open the repository.
    ```bash
-   git clone https://github.com/yourusername/your-repo.git
+   git clone repository-url
    cd your-repo
    ```
 ![img_5.png](readme_photos/img_5.png)
 
-### 6. Check for Project Structure
-- Check if your project structure matches this.
-![img_1.png](img_1.png)
+### 4b. Extract the .zip folder (alternative)
+- If needed extract the zip folder.
+- Right-click the .zip folder contained and extract it to a safe location
+- Then, load the project through the IntelliJ IDE.
+- File > Open > Path to the extracted folder
 
-### 7. Ensure that the compiler is running on JDK 21.0.2
+### 5. Ensure that you have downloaded Maven & loaded it after opening in IDE
+- You can download Maven using this link:
+  https://maven.apache.org/download.cgi
+  ![img.png](readme_photos/abc.png)
+  MAKE SURE to press Load to load all build scripts used.
+
+### 6. Ensure that java is marked as a Source Root (IMPORTANT)
+#### /src/main/java
+- If java does not appear as a "blue folder", or all the java classes have "coffee icons" then java is not properly marked as a source root.
+  - In that case, find the location listed above, then right click on java.
+  - Right-click > Mark Directory as > Sources Root
+  - Click on Sources Root
+![img.png](readme_photos/123.png)
+  
+### 7. Ensure that resources folder is marked as a Resources Root (IMPORTANT)
+#### /src/main/resources
+- If resources does not appear as a white folder with "yellow coins stacked", then it is not marked as a resources folder
+  - Right Click > Mark Directory as > Resources Root
+  - Click on Resources Root
+![img_1.png](readme_photos/456.png)
+
+### 8. Make sure the Main class is set
+#### /src/main/java/com/example/demo/controller/Main.java
+- Main class may not be set. In this case, you want to check
+- Open Main.java
+- Open Run > Edit Configurations
+- Add a new application config, set main class to Main.java
+- Save and try running the project
+
+![img_2.png](readme_photos/789.png)
+
+### 8. Check for Project Structure
+- Check if your project structure matches this.
+![img_1.png](readme_photos/bca.png)
+
+### 9. Ensure that the compiler is running on JDK 21.0.2
 For target bytecode version, you can just put 21 as the option
 ![img.png](readme_photos/img.png)
 
-### 8. Ensure that all dependencies in pom.xml are added and up to 21.0.2
+### 10. Ensure that all dependencies in pom.xml are added and up to 21.0.2
 The dependencies may show as not 21 or 21.0.2 . Ensure that:
 
 - Maven compiler source and target are **21.**
 - Ensure that javafx-controls, javafx-fxml, javafx-media are **added.**
 - Dependencies for javafx-controls,javafx-fxml,javafx-media are **21.0.2**.
 ![img.png](readme_photos/img_2.png)
-```bash 
-sudo apt-get install maven
-```
-Then, compile
-```bash
-mvn clean install
-```
 
-### 9. Sync Dependencies: Reload Maven to download all needed dependencies
+### 11. Sync Dependencies: Reload Maven to download all needed dependencies
 Since javafx.media is a newly added dependency, Maven might have not been updated. So, we can click on the maven option and reload it in order to update it.
 ![img_1.png](readme_photos/img_1.png)
 
-### 10. Make sure that the .fxml files are using JavaFX 21.0.2
+### 12. Make sure that the .fxml files are using JavaFX 21.0.2
 - Can be found under resources/fxml/
 - This is because the .fxml can automatically update to use the most recent javafx ver (currently 23.0.1)
 - Can still be compiled without updating, but may cause unexpected errors, so it is better to check and correct it if needed.
@@ -114,13 +131,9 @@ Since javafx.media is a newly added dependency, Maven might have not been update
 ![img_3.png](readme_photos/img_3.png)
 ![img_4.png](readme_photos/img_4.png)
 
-### 11. Run the Main.java file to start the game
-- The location is under /src/main/java/com/example/demo/controller/Main.java
+### 13. Run the Main.java file to start the game
+#### /src/main/java/com/example/demo/controller/Main.java
 - You can press on the play button on the top right of the screen to run the app.
-- Alternatively, run through this command in terminal
-```bash 
- java -jar target/your-project.jar
-```
 
 ![img_7.png](readme_photos/img_7.png)
 
