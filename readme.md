@@ -134,8 +134,14 @@ Since javafx.media is a newly added dependency, Maven might have not been update
 ### 13. Run the Main.java file to start the game
 #### /src/main/java/com/example/demo/controller/Main.java
 - You can press on the play button on the top right of the screen to run the app.
+  
+- ![img_7.png](readme_photos/img_7.png)
 
-![img_7.png](readme_photos/img_7.png)
+### 14. In case of not being able to see any Maven dependencies; reimport as Maven project
+- Open File > Open and select the pom.xml file (instead of opening the folder)
+  - IntelliJ will prompt you to reimport the project as a Maven project. Accept this prompt.
+  - Once reimported, reload Maven and it will resolve all dependencies, and the project should be able to compile.
+
 
 ## Implemented and Working Properly
 [Back to Table of Contents](#table-of-contents)
