@@ -58,6 +58,7 @@ https://gluonhq.com/products/javafx/
 - Open your IntelliJ
 - Go to File > New > Project from Version Control
 - Paste the URL from earlier into the URL field
+- Open a new folder for the directory under IdeaProjects or anywhere else **(folder must be empty)**
 - Click "Clone", and IntelliJ will clone and open the repository.
 
 ![img_5.png](readme_photos/img_5.png)
