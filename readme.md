@@ -1,4 +1,4 @@
-# COMP2024 Developing Maintainable Software
+# COMP2042 Developing Maintainable Software
 ## Table of Contents
 
 ---
@@ -47,9 +47,11 @@ https://github.com/Raelyne/CW2024.git
 - You can find the download link here:
 https://gluonhq.com/products/javafx/
 
-### 3. Ensure that you have downloaded Maven
+### 3. Ensure that you have downloaded Maven & loaded it after opening in IDE
 - You can download Maven using this link:
 https://maven.apache.org/download.cgi
+![img.png](img.png)
+MAKE SURE to press Load to load all build scripts used.
 
 ### 4. Install IntelliJ IDEA Community Edition 2023.3.4
 - IntelliJ IDEA Community Edition was used as the IDE to refactor this project. Install 2023.3.4 or above to avoid any unexpected problems.
